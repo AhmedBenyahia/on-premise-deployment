@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
     debug(req.body);
     res.status(202).send("OK")
     stopAppServer()
-    removeUnusedObject()
+    // removeUnusedObject()
     runBuild()
 });
 

@@ -16,6 +16,7 @@ const runBuild = () => {
     !shell.exec('mvn clean install -DskipTests').code &&
     !shell.exec('sudo docker build -t ltm-api:1.13 .').code &&
     !shell.exec('sudo docker stop ltm-api').code &&
+    !shell.exec('sudo docker rm ltm-api').code &&
     shell.exec('sudo docker run -p 5005:5005 -p 3306:306 --name ltm-api ltm-api:1.13');
 }
 

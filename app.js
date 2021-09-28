@@ -11,14 +11,20 @@ const runBuild = async () => {
         shell.echo('Sorry, this script requires git');
         shell.exit(1);
     }
+    shell.echo("######## Change dir to repository path ########")
     !shell.cd(config.get("repoPath")).code &&
+    shell.echo("######## Pulling git repo for updates ########") &&
     !shell.exec('git pull').code &&
+    shell.echo("######## Running mvn clean install ########") &&
     !shell.exec('mvn clean install -DskipTests').code &&
+    shell.echo("######## Building the docker container ########") &&
     !shell.exec('sudo docker build -t ltm-api:1.13 .').code &&
+    shell.echo("######## Starting the docker container ########") &&
     shell.exec('sudo docker run -p 5005:5005 -p 3306:306 --name ltm-api ltm-api:1.13', {async:true});
 }
 
 const stopAppServer = () => {
+    shell.echo("######## Stop and Delete the old container ########")
     !shell.exec('sudo docker stop ltm-api').code &&
     shell.exec('sudo docker rm ltm-api')
 }
@@ -33,10 +39,10 @@ app.use("/",router);
 
 /* POST webhook. */
 router.post('/', async (req, res, next) => {
-    debug(req.body)
+    debug(req.body);
+    res.status(202).send("OK")
     stopAppServer()
     runBuild()
-    res.send("OK");
 });
 
 module.exports = app;

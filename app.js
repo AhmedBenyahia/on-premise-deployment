@@ -31,6 +31,11 @@ const stopAppServer = () => {
     shell.exec('docker rm ltm-api')
 }
 
+const removeUnusedObject = () => {
+    shell.exec("docker image prune -a")
+    shell.exec("docker container prune")
+}
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -44,6 +49,7 @@ router.post('/', async (req, res, next) => {
     debug(req.body);
     res.status(202).send("OK")
     stopAppServer()
+    removeUnusedObject()
     runBuild()
 });
 

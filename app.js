@@ -18,9 +18,9 @@ const runBuild = async () => {
     shell.echo("######## Running mvn clean install ########") &&
     !shell.exec('mvn clean install -DskipTests').code &&
     shell.echo("######## Building the docker container ########") &&
-    !shell.exec('sudo docker build -t ltm-api:1.13 .').code &&
+    !shell.exec('docker build -t ltm-api:1.13 .').code &&
     shell.echo("######## Starting the docker container ########") &&
-    shell.exec('sudo docker run -p 5005:5005 -p 3306:306 --name ltm-api ltm-api:1.13', {async:true});
+    shell.exec('docker run -p 5005:5005 -p 3306:306 --name ltm-api ltm-api:1.13', {async:true});
 }
 
 const stopAppServer = () => {

@@ -32,8 +32,8 @@ const stopAppServer = () => {
 }
 
 const removeUnusedObject = () => {
-    shell.exec("docker image prune -a")
-    shell.exec("docker container prune")
+    shell.exec("docker image prune -a -f")
+    shell.exec("docker container prune -f")
 }
 
 app.use(logger('dev'));

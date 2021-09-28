@@ -25,8 +25,8 @@ const runBuild = async () => {
 
 const stopAppServer = () => {
     shell.echo("######## Stop and Delete the old container ########")
-    !shell.exec('sudo docker stop ltm-api').code &&
-    shell.exec('sudo docker rm ltm-api')
+    !shell.exec('docker stop ltm-api').code &&
+    shell.exec('docker rm ltm-api')
 }
 
 app.use(logger('dev'));
